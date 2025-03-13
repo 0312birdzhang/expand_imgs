@@ -32,11 +32,15 @@ def stitch_images_horizontal(folder_path):
     # 水平拼接所有图片
     stitched_image = np.hstack(resized_images)
     
-    # 计算缩放倍数（输出宽度 / 图片数量）
-    num_images = len(resized_images)
-    output_width = stitched_image.shape[1] // num_images
-    output_height = stitched_image.shape[0] // num_images
-    stitched_image_resized = cv2.resize(stitched_image, (output_width, output_height), interpolation=cv2.INTER_AREA)
+    ## 计算合理的缩放比例，避免图像过小
+    # num_images = len(resized_images)
+    # target_width = max(stitched_image.shape[1] // 2, stitched_image.shape[1] // num_images * 2)
+    # scale_factor = min(1, target_width / stitched_image.shape[1])
+    # final_width = int(stitched_image.shape[1] * scale_factor)
+    # final_height = int(stitched_image.shape[0] * scale_factor)
+    
+    # stitched_image_resized = cv2.resize(stitched_image, (final_width, final_height), interpolation=cv2.INTER_LANCZOS4)
+    stitched_image_resized = stitched_image
     
     # 创建 output 文件夹
     output_folder = os.path.join(folder_path, "output")
